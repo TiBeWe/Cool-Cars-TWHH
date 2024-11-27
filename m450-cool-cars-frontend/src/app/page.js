@@ -5,9 +5,13 @@ import Link from "next/link";
 
 export default function Home() {
     const [cars, setCars] = useState([]);
-    const [filteredCars, setFilteredCars] = useState([]); // Gefilterte Liste für Anzeige
-    const [sortOption, setSortOption] = useState(""); // Aktuell gewählte Sortieroption
-    const [searchQuery, setSearchQuery] = useState(""); // Aktuelle Suchanfrage
+    const [filteredCars, setFilteredCars] = useState([]);
+    const [sortOption, setSortOption] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
+
+    // Paging state
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 5; // Anzahl der Einträge pro Seite
 
     function loadCars() {
         fetch("http://localhost:8080/cars")
@@ -15,11 +19,12 @@ export default function Home() {
             .then(data => {
                 setCars(data);
                 setFilteredCars(data); // Initial alle Autos anzeigen
+                setCurrentPage(1); // Zurück zur ersten Seite
             });
     }
 
     function sortCars(option) {
-        let sortedCars = [...filteredCars]; // Nur die gefilterte Liste sortieren
+        let sortedCars = [...filteredCars];
         switch (option) {
             case "brand-asc":
                 sortedCars.sort((a, b) => a.brand.localeCompare(b.brand));
@@ -37,12 +42,13 @@ export default function Home() {
                 break;
         }
         setFilteredCars(sortedCars);
+        setCurrentPage(1); // Zurück zur ersten Seite nach Sortierung
     }
 
     function handleSortChange(event) {
         const selectedOption = event.target.value;
         setSortOption(selectedOption);
-        sortCars(selectedOption); // Sortierung basierend auf der Auswahl
+        sortCars(selectedOption);
     }
 
     function handleSearchChange(event) {
@@ -54,20 +60,31 @@ export default function Home() {
                 .includes(query)
         );
         setFilteredCars(searchResult);
+        setCurrentPage(1); // Zurück zur ersten Seite nach Suche
     }
+
+    function handlePageChange(page) {
+        setCurrentPage(page);
+    }
+
+    // Paging logic
+    const totalPages = Math.ceil(filteredCars.length / itemsPerPage);
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const currentItems = filteredCars.slice(startIndex, endIndex);
 
     return (
         <div className="App">
             <h1>My Frontend - Cool Cars</h1>
             <button onClick={loadCars}>Load Cars</button>
             <br />
-            <label htmlFor="searchInput">Search by: </label>
+            <label htmlFor="searchInput">Search: </label>
             <input
                 id="searchInput"
                 type="text"
                 value={searchQuery}
                 onChange={handleSearchChange}
-                placeholder="brand, model, horsepower"
+                placeholder="Search by brand, model, or horsepower..."
             />
             <br />
             <label htmlFor="sortDropdown">Sort By: </label>
@@ -84,12 +101,23 @@ export default function Home() {
             </select>
             <br />
             <ul>
-                {filteredCars.map(car => (
+                {currentItems.map(car => (
                     <li key={car.id}>
                         {car.brand + " " + car.model + " (" + car.horsePower + " HP)"}
                     </li>
                 ))}
             </ul>
+            <div className="pagination">
+                {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
+                    <button
+                        key={page}
+                        onClick={() => handlePageChange(page)}
+                        disabled={currentPage === page}
+                    >
+                        {page}
+                    </button>
+                ))}
+            </div>
             <br />
             <Link href="/carform">Add a new car</Link>
         </div>
