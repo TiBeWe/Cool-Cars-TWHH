@@ -5,33 +5,38 @@ import Link from "next/link";
 
 export default function Home() {
     const [cars, setCars] = useState([]);
+    const [filteredCars, setFilteredCars] = useState([]); // Gefilterte Liste für Anzeige
     const [sortOption, setSortOption] = useState(""); // Aktuell gewählte Sortieroption
+    const [searchQuery, setSearchQuery] = useState(""); // Aktuelle Suchanfrage
 
     function loadCars() {
         fetch("http://localhost:8080/cars")
             .then(response => response.json())
-            .then(data => setCars(data));
+            .then(data => {
+                setCars(data);
+                setFilteredCars(data); // Initial alle Autos anzeigen
+            });
     }
 
     function sortCars(option) {
-        let sortedCars;
+        let sortedCars = [...filteredCars]; // Nur die gefilterte Liste sortieren
         switch (option) {
             case "brand-asc":
-                sortedCars = [...cars].sort((a, b) => a.brand.localeCompare(b.brand));
+                sortedCars.sort((a, b) => a.brand.localeCompare(b.brand));
                 break;
             case "brand-desc":
-                sortedCars = [...cars].sort((a, b) => b.brand.localeCompare(a.brand));
+                sortedCars.sort((a, b) => b.brand.localeCompare(a.brand));
                 break;
             case "horsePower-asc":
-                sortedCars = [...cars].sort((a, b) => a.horsePower - b.horsePower);
+                sortedCars.sort((a, b) => a.horsePower - b.horsePower);
                 break;
             case "horsePower-desc":
-                sortedCars = [...cars].sort((a, b) => b.horsePower - a.horsePower);
+                sortedCars.sort((a, b) => b.horsePower - a.horsePower);
                 break;
             default:
-                sortedCars = cars; // Keine Sortierung
+                break;
         }
-        setCars(sortedCars);
+        setFilteredCars(sortedCars);
     }
 
     function handleSortChange(event) {
@@ -40,10 +45,30 @@ export default function Home() {
         sortCars(selectedOption); // Sortierung basierend auf der Auswahl
     }
 
+    function handleSearchChange(event) {
+        const query = event.target.value.toLowerCase();
+        setSearchQuery(query);
+        const searchResult = cars.filter(car =>
+            `${car.brand} ${car.model} ${car.horsePower}`
+                .toLowerCase()
+                .includes(query)
+        );
+        setFilteredCars(searchResult);
+    }
+
     return (
         <div className="App">
             <h1>My Frontend - Cool Cars</h1>
             <button onClick={loadCars}>Load Cars</button>
+            <br />
+            <label htmlFor="searchInput">Search by: </label>
+            <input
+                id="searchInput"
+                type="text"
+                value={searchQuery}
+                onChange={handleSearchChange}
+                placeholder="brand, model, horsepower"
+            />
             <br />
             <label htmlFor="sortDropdown">Sort By: </label>
             <select
@@ -59,7 +84,7 @@ export default function Home() {
             </select>
             <br />
             <ul>
-                {cars.map(car => (
+                {filteredCars.map(car => (
                     <li key={car.id}>
                         {car.brand + " " + car.model + " (" + car.horsePower + " HP)"}
                     </li>
