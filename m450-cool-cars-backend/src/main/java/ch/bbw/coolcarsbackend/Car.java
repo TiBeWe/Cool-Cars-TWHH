@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Car<T> {
+public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     private String brand;
     private String model;
-    @Column(name="horse_power")
+    @Column(name = "horse_power")
     private int horsePower;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function Home() {
@@ -11,20 +11,41 @@ export default function Home() {
 
     // Paging state
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // Anzahl der Einträge pro Seite
+    const [itemsPerPage, setItemsPerPage] = useState(5);
 
-    function loadCars() {
-        fetch("http://localhost:8080/cars")
-            .then(response => response.json())
-            .then(data => {
-                setCars(data);
-                setFilteredCars(data); // Initial alle Autos anzeigen
-                setCurrentPage(1); // Zurück zur ersten Seite
-            });
+    // Load cars from the backend
+    useEffect(() => {
+        loadCars();
+    }, []);
+
+    async function loadCars() {
+        try {
+            const response = await fetch("http://localhost:8080/cars");
+            if (!response.ok) throw new Error("Failed to load cars");
+            const data = await response.json();
+            setCars(data);
+            setFilteredCars(data); // Initial alle Autos anzeigen
+            setCurrentPage(1); // Zurück zur ersten Seite
+        } catch (error) {
+            console.error("Error loading cars:", error);
+        }
     }
 
-    function sortCars(option) {
-        let sortedCars = [...filteredCars];
+    async function deleteCar(id) {
+        try {
+            const response = await fetch(`http://localhost:8080/cars/${id}`, {
+                method: "DELETE",
+            });
+            if (!response.ok) throw new Error("Failed to delete car");
+            await loadCars(); // Refresh the list after deleting
+        } catch (error) {
+            console.error("Error deleting car:", error);
+        }
+    }
+
+    // Sort function
+    function sortBy(option, cars) {
+        const sortedCars = [...cars];
         switch (option) {
             case "brand-asc":
                 sortedCars.sort((a, b) => a.brand.localeCompare(b.brand));
@@ -41,30 +62,22 @@ export default function Home() {
             default:
                 break;
         }
-        setFilteredCars(sortedCars);
-        setCurrentPage(1); // Zurück zur ersten Seite nach Sortierung
+        return sortedCars;
     }
 
-    function handleSortChange(event) {
-        const selectedOption = event.target.value;
-        setSortOption(selectedOption);
-        sortCars(selectedOption);
-    }
+    useEffect(() => {
+        applyFilters();
+    }, [searchQuery, sortOption]);
 
-    function handleSearchChange(event) {
-        const query = event.target.value.toLowerCase();
-        setSearchQuery(query);
-        const searchResult = cars.filter(car =>
+    function applyFilters() {
+        let result = cars.filter(car =>
             `${car.brand} ${car.model} ${car.horsePower}`
                 .toLowerCase()
-                .includes(query)
+                .includes(searchQuery)
         );
-        setFilteredCars(searchResult);
-        setCurrentPage(1); // Zurück zur ersten Seite nach Suche
-    }
-
-    function handlePageChange(page) {
-        setCurrentPage(page);
+        result = sortBy(sortOption, result);
+        setFilteredCars(result);
+        setCurrentPage(1); // Zurück zur ersten Seite nach Filter/Suche
     }
 
     // Paging logic
@@ -75,51 +88,58 @@ export default function Home() {
 
     return (
         <div className="App">
-            <h1>My Frontend - Cool Cars</h1>
-            <button onClick={loadCars}>Load Cars</button>
-            <br />
-            <label htmlFor="searchInput">Search: </label>
-            <input
-                id="searchInput"
-                type="text"
-                value={searchQuery}
-                onChange={handleSearchChange}
-                placeholder="Search by brand, model, or horsepower..."
-            />
-            <br />
-            <label htmlFor="sortDropdown">Sort By: </label>
-            <select
-                id="sortDropdown"
-                value={sortOption}
-                onChange={handleSortChange}
-            >
-                <option value="">-- Select Option --</option>
-                <option value="brand-asc">Brand (Ascending)</option>
-                <option value="brand-desc">Brand (Descending)</option>
-                <option value="horsePower-asc">HorsePower (Ascending)</option>
-                <option value="horsePower-desc">HorsePower (Descending)</option>
-            </select>
-            <br />
+            <h1>Cool Cars App</h1>
+
+            {/* Search and Sort */}
+            <div>
+                <label htmlFor="searchInput">Search: </label>
+                <input
+                    id="searchInput"
+                    type="text"
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value.toLowerCase())}
+                    placeholder="Search by brand, model, or horsepower..."
+                />
+                <br />
+                <label htmlFor="sortDropdown">Sort By: </label>
+                <select
+                    id="sortDropdown"
+                    value={sortOption}
+                    onChange={e => setSortOption(e.target.value)}
+                >
+                    <option value="">-- Select Option --</option>
+                    <option value="brand-asc">Brand (Ascending)</option>
+                    <option value="brand-desc">Brand (Descending)</option>
+                    <option value="horsePower-asc">HorsePower (Ascending)</option>
+                    <option value="horsePower-desc">HorsePower (Descending)</option>
+                </select>
+            </div>
+
+            {/* Cars List */}
             <ul>
                 {currentItems.map(car => (
                     <li key={car.id}>
-                        {car.brand + " " + car.model + " (" + car.horsePower + " HP)"}
+                        {car.brand} {car.model} ({car.horsePower} HP)
+                        <button onClick={() => deleteCar(car.id)}>Delete</button>
                     </li>
                 ))}
             </ul>
+
+            {/* Pagination */}
             <div className="pagination">
                 {Array.from({ length: totalPages }, (_, index) => index + 1).map(page => (
                     <button
                         key={page}
-                        onClick={() => handlePageChange(page)}
+                        onClick={() => setCurrentPage(page)}
                         disabled={currentPage === page}
                     >
                         {page}
                     </button>
                 ))}
             </div>
+
             <br />
-            <Link href="/carform">Add a new car</Link>
+            <Link href="/carform">Add a New Car</Link>
         </div>
     );
 }

@@ -1,46 +1,49 @@
 package ch.bbw.coolcarsbackend;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.ApplicationArguments;
-import org.springframework.boot.ApplicationRunner;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("http://localhost:3000")
-public class CarController implements ApplicationRunner {
+@RequestMapping("/cars")
+public class CarController {
 
     @Autowired
     private CarRepository carRepository;
 
-    @GetMapping("")  // http://localhost:8080
-    public String helloWorld() {
-        return "Hello World from Backend";
-    }
-
-    @GetMapping("cars")
-    public List<Car> getCars() {
-        System.out.println(carRepository.findAll());
+    @GetMapping("")
+    public List<Car> getAllCars() {
         return (List<Car>) carRepository.findAll();
     }
 
-    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        System.out.println("App Runner...");
-        carRepository
-                .save(new Car(0, "Dodge", "Challenger", 500));
-        carRepository
-                .findAll()
-                .forEach(System.out::println);
-
+    @GetMapping("/{id}")
+    public Car getCarById(@PathVariable int id) {
+        return carRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Car not found with id: " + id));
     }
 
-    @GetMapping("cars/{id}")
-    public Car getACar(@PathVariable int id) {
-        return new Car(id, "Ford", "Mustang", 450);
+    @PostMapping("")
+    public Car addCar(@RequestBody Car newCar) {
+        return carRepository.save(newCar);
+    }
+
+    @PutMapping("/{id}")
+    public Car updateCar(@PathVariable int id, @RequestBody Car updatedCar) {
+        return carRepository.findById(id)
+                .map(car -> {
+                    car.setBrand(updatedCar.getBrand());
+                    car.setModel(updatedCar.getModel());
+                    car.setHorsePower(updatedCar.getHorsePower());
+                    return carRepository.save(car);
+                })
+                .orElseThrow(() -> new RuntimeException("Car not found with id: " + id));
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteCar(@PathVariable int id) {
+        carRepository.deleteById(id);
     }
 }
