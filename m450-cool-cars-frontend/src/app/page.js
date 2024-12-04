@@ -139,7 +139,7 @@ export default function Home() {
             </div>
 
             <br />
-            <Link href="/carform">Add a New Car</Link>
+            <Link href="/carform">add a New Car</Link>
         </div>
     );
 }
