@@ -8,7 +8,7 @@
 
 Das Projekt "Cool Cars" wurde im Rahmen des Moduls 323 mit dem Ziel umgesetzt, eine benutzerfreundliche Anwendung zur Verwaltung von Fahrzeugdaten zu entwickeln. Besonderer Fokus lag auf der Anwendung funktionaler Programmierkonzepte in JavaScript/React.
 
-Die App umfasst Funktionen zur Sortierung, Suche und eine Paginierungsfunktion, welche durch die Prinzipien der funktionalen Programmierung effizient umgesetzt wurden.
+Die App umfasst Funktionen zur Sortierung, Suche und eine Paginierungsfunktion, die durch die Prinzipien der funktionalen Programmierung effizient umgesetzt wurden. Ein besonderes Augenmerk wurde auf die Verwendung von **Pure Functions**, **Higher-Order Functions** und **Immutable Data Structures** gelegt, um den Code möglichst modular, wiederverwendbar und leicht testbar zu gestalten.
 
 ## Technologien und Konzepte
 
@@ -31,15 +31,15 @@ Diese Erfahrungen bestätigen unsere Kompetenz auf einem fortgeschrittenen Nivea
 
 ## Umsetzung der Funktionalen Programmierung
 
-### Angewendete Konzepte und Beispiele
+### Pure Functions im Code: `sortBy`
 
-#### Pure Functions
+Eine **Pure Function** ist eine Funktion, die keine Seiteneffekte hat und deren Ausgabewerte nur von den Eingabewerten abhängen. Sie verändert keine globalen Zustände und beeinflusst keine anderen Teile der Anwendung.
 
-Die Sortierfunktion wurde als pure Function implementiert:
+**Beispiel im Code:**
 
-```
+```javascript
 function sortCars(cars, option) {
-    let sortedCars = [...cars];
+    let sortedCars = [...cars]; // Erstellen einer Kopie der Liste
     switch (option) {
         case "brand-asc":
             sortedCars.sort((a, b) => a.brand.localeCompare(b.brand));
@@ -56,17 +56,26 @@ function sortCars(cars, option) {
         default:
             break;
     }
-    return sortedCars;
+    return sortedCars; // Rückgabe einer neuen, unveränderten Liste
 }
 ```
 
-### Diese Funktion verändert die Originaldaten nicht und erzeugt stets ein neues Array.
+- **Erstellt eine Kopie der Liste** und verändert die Originaldaten nicht:
+  - `const sortedCars = [...cars];` kopiert das Array, um es zu sortieren, ohne das Original zu ändern.
+  
+- **Gibt eine neue sortierte Liste zurück**:
+  - `return sortedCars;` gibt die sortierte Kopie zurück, ohne den globalen Zustand zu beeinflussen.
 
-## Immutable Data Structures
+- **Bezug zur Kompetenz AF1**:  
+  - Die Funktion erstellt eine Kopie der Liste, um Datenmanipulation und Seiteneffekte zu vermeiden.
 
-Beim Filtern der Fahrzeugdaten wird das Original-Array nicht verändert:
+### Immutable Data Structures
 
-```
+**Immutable Data** bedeutet, dass die Daten niemals direkt verändert werden, sondern immer neue Kopien erzeugt werden. Dies verhindert unerwünschte Nebeneffekte, da der Zustand der Anwendung immer nachvollziehbar bleibt.
+
+**Beispiel im Code:**
+
+```javascript
 function filterCars(cars, query) {
     return cars.filter(car =>
         `${car.brand} ${car.model} ${car.horsePower}`.toLowerCase().includes(query.toLowerCase())
@@ -74,16 +83,45 @@ function filterCars(cars, query) {
 }
 ```
 
-## Higher-Order Functions
+- **Daten werden nicht verändert**, sondern eine neue Liste wird zurückgegeben:
+  - Das Original-Array wird niemals bearbeitet, stattdessen wird ein neues Array erzeugt und zurückgegeben.
 
-Die Verwendung von `map` und `filter` optimiert die Verarbeitung von Daten:
+### Higher-Order Functions
 
-```
+Eine **Higher-Order Function (HOF)** ist eine Funktion, die entweder eine andere Funktion als Argument akzeptiert oder eine Funktion zurückgibt. Dies ermöglicht eine sehr hohe Flexibilität und Modularität im Code.
+
+**Beispiel im Code:**
+
+```javascript
 const carBrands = cars.map(car => car.brand);
 const uniqueBrands = [...new Set(carBrands)];
 ```
 
-Hier wird `map` genutzt, um eine Liste der Marken zu erzeugen, und `Set`, um doppelte Einträge zu entfernen.
+- `map`: Eine Higher-Order Function, die eine Funktion als Argument akzeptiert und auf jedes Element des Arrays anwendet. In diesem Fall wird eine Liste der Marken aus den Fahrzeugen extrahiert.
+- `Set`: Eine native JavaScript-Datenstruktur, die automatisch doppelte Einträge entfernt.
+
+### Lambda-Ausdrücke
+
+Ein **Lambda-Ausdruck** (auch als anonyme Funktion bezeichnet) ermöglicht die Definition von Funktionen direkt innerhalb anderer Funktionen, häufig in der Form von Arrow Functions.
+
+**Beispiel im Code:**
+
+```javascript
+cars.filter(car => 
+    `${car.brand} ${car.model} ${car.horsePower}`
+        .toLowerCase()
+        .includes(searchQuery)
+);
+```
+
+- `car => \${car.brand} ${car.model} ${car.horsePower}`: Eine Lambda-Funktion, die für jedes Fahrzeug eine Zeichenkette aus den Eigenschaften `brand`, `model` und `horsePower` erstellt.
+- `.includes(searchQuery)`: Überprüft, ob die Suchanfrage in dieser Zeichenkette enthalten ist.
+
+- **Kompetenzbezug**:
+  - *C3F*: Verarbeitung von Argumenten innerhalb des Lambda-Ausdrucks.
+  - *C3E*: Verwendung von Lambda-Ausdrücken für das Filtern basierend auf der Suchanfrage.
+
+---
 
 ## Reflexion
 
@@ -99,9 +137,9 @@ Hier wird `map` genutzt, um eine Liste der Marken zu erzeugen, und `Set`, um dop
 
 ## Gelerntes und zukünftige Anwendung
 
-Die funktionale Programmierung erlaubt es, modularen und gut testbaren Code zu schreiben.
+Die funktionale Programmierung erlaubt es, modularen und gut testbaren Code zu schreiben. Besonders die Anwendung von **Pure Functions**, **Higher-Order Functions** und die Arbeit mit **Immutable Data** haben den Code nicht nur robuster, sondern auch wartungsfreundlicher gemacht.
 
-In zukünftigen Projekten möchten wir die Konzepte weiter vertiefen. Und wir haben gemerkt, dass gewisse Dinge viel einfach zu lösen sind mit funktionaler Programmierung und mir persönlich (Timo) macht es auch mehr Spaß als die imperative Programmierung.
+In zukünftigen Projekten möchten wir diese Konzepte weiter vertiefen. Wir haben gemerkt, dass einige Probleme mit funktionaler Programmierung viel einfacher zu lösen sind und uns persönlich (Timo) macht es auch mehr Spaß als die imperative Programmierung.
 
 ## Notengebung
 
@@ -110,4 +148,4 @@ In zukünftigen Projekten möchten wir die Konzepte weiter vertiefen. Und wir ha
 **Begründung:**
 - Das Projekt wurde erfolgreich und termingerecht abgeschlossen.  
 - Die Anforderungen der funktionalen Programmierung wurden vollständig erfüllt.  
-- Sogar noch die zusätzliche Funktion hinzugefügt um neue Autos zu erstellen.
+- Sogar noch die zusätzliche Funktion hinzugefügt, um neue Autos zu erstellen.
