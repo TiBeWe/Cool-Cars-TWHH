@@ -56,3 +56,17 @@ function sortCars(cars, option) {
     }
     return sortedCars;
 }
+
+### Diese Funktion verändert die Originaldaten nicht und erzeugt stets ein neues Array.
+
+## Immutable Data Structures
+
+Beim Filtern der Fahrzeugdaten wird das Original-Array nicht verändert:
+
+```javascript
+function filterCars(cars, query) {
+    return cars.filter(car =>
+        `${car.brand} ${car.model} ${car.horsePower}`.toLowerCase().includes(query.toLowerCase())
+    );
+}
+
