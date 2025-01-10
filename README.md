@@ -1,6 +1,7 @@
 # Kompetenznachweis – Projekt "Cool Cars"
 
 **Namen:** Weber Timo und Heiko Ho
+
 **Datum der Abgabe:** 10. Januar 2025  
 
 ## Einleitung
