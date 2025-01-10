@@ -127,17 +127,35 @@ cars.filter(car =>
 
 ### Herausforderungen
 
-- **State-Management:** Das Handling von sortierten und gefilterten Daten in React erforderte eine klare Struktur des States, um unerwünschte Seiteneffekte zu vermeiden.  
-- **Performance bei großen Datenmengen:** Bei der Implementierung der Paginierung mussten wir sicherstellen, dass die App auch bei vielen Einträgen reibungslos funktioniert.
+- **Sortierfunktion (ASC/DESC):** Eine Sortierfunktion implementieren, die es ermöglicht, die Einträge in der App sowohl aufsteigend als auch absteigend zu sortieren. Hierbei sollte garantiert werden, dass keine Seiteneffekte entstehen und die Originaldaten unverändert bleiben.
+  
+- **Suchfunktion:** Eine Suchfunktion entwickeln, die es ermöglicht, nach spezifischen Begriffen in allen gespeicherten Einträgen zu suchen.
+
+- **Paginierung:** Eine Paginierungsfunktion implementieren, die es ermöglicht, große Datenmengen in überschaubaren Seiten zu navigieren. Die Daten sollen in kleinen, unveränderlichen Chunks geladen und angezeigt werden.
+
+- **Filterfunktion:** Eine Filterfunktion hinzufügen, die es den Benutzern ermöglicht, Einträge nach bestimmten Kriterien zu filtern. Dabei soll sichergestellt werden, dass die Originaldaten unverändert bleiben.
 
 ### Lösungsansätze
 
-- Wir haben Redux vermieden und stattdessen lokale State-Management-Methoden genutzt, die einfacher zu handhaben sind.  
-- Die Daten wurden effizient in kleine Abschnitte aufgeteilt, um die Performance zu verbessern.
+- **Verwendung von Pure Functions:** Wir haben Pure Functions eingesetzt, um sicherzustellen, dass keine Seiteneffekte entstehen. Beispielsweise wurde eine Sortierfunktion implementiert, die immer eine Kopie der Daten erstellt und nie das Original verändert. Diese Methode entspricht der funktionalen Programmierung und verhindert unvorhergesehene Änderungen an den Daten.
+  
+  - *Beispiel:* Die Sortierfunktion `sortBy(option, cars)` nutzt eine Kopie der Liste `cars`, sodass das Original-Array unverändert bleibt.
+
+- **Immutable Data Structures:** Wir haben Immutable Data Structures verwendet, um Daten immer durch neue Kopien zu ersetzen, anstatt sie direkt zu verändern. Dies sichert die Unveränderlichkeit der Daten und vereinfacht das Management von State.
+  
+  - *Beispiel:* Beim Filtern der Fahrzeuge wird das Original-Array `cars` nicht verändert, sondern es wird ein neues Array zurückgegeben.
+
+- **Effiziente Paginierung:** Die Daten wurden in kleine, unveränderliche Chunks aufgeteilt, um die Performance bei großen Datenmengen zu verbessern. Die Paginierungslogik sorgt dafür, dass nur die relevanten Daten angezeigt werden, ohne das gesamte Set zu laden, was die Performance steigert.
+  
+  - *Beispiel:* Die Paginierung wurde so umgesetzt, dass bei jeder Seitenanfrage nur ein kleiner Teil der Daten geladen wird, ohne die Originaldaten zu verändern.
+
+- **Verwendung von Higher-Order Functions:** Funktionen wie `map`, `filter` und `reduce` wurden eingesetzt, um die Modularität und Wiederverwendbarkeit des Codes zu erhöhen und das State-Management zu vereinfachen.
+  
+  - *Beispiel:* Die `filter`-Funktion wird verwendet, um die Fahrzeugdaten basierend auf einer Suchanfrage zu filtern, ohne das Originalarray zu verändern.
 
 ## Gelerntes und zukünftige Anwendung
 
-Die funktionale Programmierung erlaubt es, modularen und gut testbaren Code zu schreiben. Besonders die Anwendung von **Pure Functions**, **Higher-Order Functions** und die Arbeit mit **Immutable Data** haben den Code nicht nur robuster, sondern auch wartungsfreundlicher gemacht.
+Die funktionale Programmierung erlaubt es, modularen und gut testbaren Code zu schreiben. Besonders die Anwendung von **Pure Functions**, **Higher-Order Functions** und die Arbeit mit **Immutable Data** haben den Code nicht nur robuster, sondern auch wartungsfreundlicher gemacht. Der Code ist viel übersichtlicher geworden.
 
 In zukünftigen Projekten möchten wir diese Konzepte weiter vertiefen. Wir haben gemerkt, dass einige Probleme mit funktionaler Programmierung viel einfacher zu lösen sind und uns persönlich (Timo) macht es auch mehr Spaß als die imperative Programmierung.
 
