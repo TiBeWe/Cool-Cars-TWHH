@@ -56,6 +56,7 @@ function sortCars(cars, option) {
     }
     return sortedCars;
 }
+```
 
 ### Diese Funktion verändert die Originaldaten nicht und erzeugt stets ein neues Array.
 
