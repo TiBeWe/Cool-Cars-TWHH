@@ -8,12 +8,12 @@
 
 Das Projekt "Cool Cars" wurde im Rahmen des Moduls 323 mit dem Ziel umgesetzt, eine benutzerfreundliche Anwendung zur Verwaltung von Fahrzeugdaten zu entwickeln. Besonderer Fokus lag auf der Anwendung funktionaler Programmierkonzepte in JavaScript/React.
 
-Die App umfasst Funktionen zur Sortierung, Suche und eine Pagigngfunktion, welche durch die Prinzipien der funktionalen Programmierung effizient umgesetzt wurden.
+Die App umfasst Funktionen zur Sortierung, Suche und eine Paginierungsfunktion, welche durch die Prinzipien der funktionalen Programmierung effizient umgesetzt wurden.
 
 ## Technologien und Konzepte
 
 - **Frontend:** React.js  
-- **Backend:** Node.js mit REST-API
+- **Backend:** Node.js mit REST-API  
 - **Design:** Tailwind CSS  
 - **Funktionale Programmierung:** Pure Functions, Higher-Order Functions, Immutable Data Structures  
 
@@ -23,11 +23,11 @@ Die App umfasst Funktionen zur Sortierung, Suche und eine Pagigngfunktion, welch
 
 ### Begründung:
 
-- **Pure Functions:** Ich konnte diese Konzepte sicher anwenden, wie etwa bei der Implementierung der Sortierfunktion, die ohne Seiteneffekte arbeitet.  
+- **Pure Functions:** Wir konnten diese Konzepte sicher anwenden, wie etwa bei der Implementierung der Sortierfunktion, die ohne Seiteneffekte arbeitet.  
 - **Immutable Data:** Die Daten werden in der App niemals direkt verändert, sondern durch neue Kopien ersetzt. Dies zeigt sich beispielsweise in der Filterfunktion.  
 - **Higher-Order Functions:** Funktionen wie `map`, `filter` und `reduce` wurden erfolgreich eingesetzt, um Code modular und wiederverwendbar zu gestalten.  
 
-Diese Erfahrungen bestätigen meine Kompetenz auf einem fortgeschrittenen Niveau, da ich die Konzepte gezielt auf komplexe Anforderungen anwenden konnte.
+Diese Erfahrungen bestätigen unsere Kompetenz auf einem fortgeschrittenen Niveau, da wir die Konzepte gezielt auf komplexe Anforderungen anwenden konnten.
 
 ## Umsetzung der Funktionalen Programmierung
 
@@ -37,7 +37,7 @@ Diese Erfahrungen bestätigen meine Kompetenz auf einem fortgeschrittenen Niveau
 
 Die Sortierfunktion wurde als pure Function implementiert:
 
-```javascript
++++
 function sortCars(cars, option) {
     let sortedCars = [...cars];
     switch (option) {
@@ -58,7 +58,7 @@ function sortCars(cars, option) {
     }
     return sortedCars;
 }
-```
++++
 
 ### Diese Funktion verändert die Originaldaten nicht und erzeugt stets ein neues Array.
 
@@ -66,21 +66,23 @@ function sortCars(cars, option) {
 
 Beim Filtern der Fahrzeugdaten wird das Original-Array nicht verändert:
 
-```javascript
++++
 function filterCars(cars, query) {
     return cars.filter(car =>
         `${car.brand} ${car.model} ${car.horsePower}`.toLowerCase().includes(query.toLowerCase())
     );
 }
-```
++++
+
 ## Higher-Order Functions
 
 Die Verwendung von `map` und `filter` optimiert die Verarbeitung von Daten:
 
-```javascript
++++
 const carBrands = cars.map(car => car.brand);
 const uniqueBrands = [...new Set(carBrands)];
-```
++++
+
 Hier wird `map` genutzt, um eine Liste der Marken zu erzeugen, und `Set`, um doppelte Einträge zu entfernen.
 
 ## Reflexion
@@ -99,7 +101,7 @@ Hier wird `map` genutzt, um eine Liste der Marken zu erzeugen, und `Set`, um dop
 
 Die funktionale Programmierung erlaubt es, modularen und gut testbaren Code zu schreiben.
 
-In zukünftigen Projekten möchten wir die Konzepte weiter vertiefen. Und wir haben gemerkt, dass gewisse Dinge viel einfach zu lösen sind mit functionalem Programmieren und mir persönlich (Timo) macht es auch mehr Spass als die imperative Programmierung.
+In zukünftigen Projekten möchten wir die Konzepte weiter vertiefen. Und wir haben gemerkt, dass gewisse Dinge viel einfach zu lösen sind mit funktionaler Programmierung und mir persönlich (Timo) macht es auch mehr Spaß als die imperative Programmierung.
 
 ## Notengebung
 
@@ -109,5 +111,3 @@ In zukünftigen Projekten möchten wir die Konzepte weiter vertiefen. Und wir ha
 - Das Projekt wurde erfolgreich und termingerecht abgeschlossen.  
 - Die Anforderungen der funktionalen Programmierung wurden vollständig erfüllt.  
 - Sogar noch die zusätzliche Funktion hinzugefügt um neue Autos zu erstellen.
-
-
