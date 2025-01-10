@@ -70,6 +70,7 @@ function filterCars(cars, query) {
         `${car.brand} ${car.model} ${car.horsePower}`.toLowerCase().includes(query.toLowerCase())
     );
 }
+```
 ## Higher-Order Functions
 
 Die Verwendung von `map` und `filter` optimiert die Verarbeitung von Daten:
@@ -77,7 +78,7 @@ Die Verwendung von `map` und `filter` optimiert die Verarbeitung von Daten:
 ```javascript
 const carBrands = cars.map(car => car.brand);
 const uniqueBrands = [...new Set(carBrands)];
-
+```
 Hier wird `map` genutzt, um eine Liste der Marken zu erzeugen, und `Set`, um doppelte Einträge zu entfernen.
 
 ## Reflexion
