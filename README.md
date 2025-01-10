@@ -37,7 +37,7 @@ Diese Erfahrungen bestätigen unsere Kompetenz auf einem fortgeschrittenen Nivea
 
 Die Sortierfunktion wurde als pure Function implementiert:
 
-+++
+```
 function sortCars(cars, option) {
     let sortedCars = [...cars];
     switch (option) {
@@ -58,7 +58,7 @@ function sortCars(cars, option) {
     }
     return sortedCars;
 }
-+++
+```
 
 ### Diese Funktion verändert die Originaldaten nicht und erzeugt stets ein neues Array.
 
@@ -66,22 +66,22 @@ function sortCars(cars, option) {
 
 Beim Filtern der Fahrzeugdaten wird das Original-Array nicht verändert:
 
-+++
+```
 function filterCars(cars, query) {
     return cars.filter(car =>
         `${car.brand} ${car.model} ${car.horsePower}`.toLowerCase().includes(query.toLowerCase())
     );
 }
-+++
+```
 
 ## Higher-Order Functions
 
 Die Verwendung von `map` und `filter` optimiert die Verarbeitung von Daten:
 
-+++
+```
 const carBrands = cars.map(car => car.brand);
 const uniqueBrands = [...new Set(carBrands)];
-+++
+```
 
 Hier wird `map` genutzt, um eine Liste der Marken zu erzeugen, und `Set`, um doppelte Einträge zu entfernen.
 
