@@ -69,4 +69,41 @@ function filterCars(cars, query) {
         `${car.brand} ${car.model} ${car.horsePower}`.toLowerCase().includes(query.toLowerCase())
     );
 }
+## Higher-Order Functions
+
+Die Verwendung von `map` und `filter` optimiert die Verarbeitung von Daten:
+
+```javascript
+const carBrands = cars.map(car => car.brand);
+const uniqueBrands = [...new Set(carBrands)];
+
+Hier wird `map` genutzt, um eine Liste der Marken zu erzeugen, und `Set`, um doppelte Einträge zu entfernen.
+
+## Reflexion
+
+### Herausforderungen
+
+- **State-Management:** Das Handling von sortierten und gefilterten Daten in React erforderte eine klare Struktur des States, um unerwünschte Seiteneffekte zu vermeiden.  
+- **Performance bei großen Datenmengen:** Bei der Implementierung der Paginierung mussten wir sicherstellen, dass die App auch bei vielen Einträgen reibungslos funktioniert.
+
+### Lösungsansätze
+
+- Wir haben Redux vermieden und stattdessen lokale State-Management-Methoden genutzt, die einfacher zu handhaben sind.  
+- Die Daten wurden effizient in kleine Abschnitte aufgeteilt, um die Performance zu verbessern.
+
+## Gelerntes und zukünftige Anwendung
+
+Die funktionale Programmierung erlaubt es, modularen und gut testbaren Code zu schreiben.
+
+In zukünftigen Projekten möchte ich die Konzepte weiter vertiefen und etwa mit TypeScript und funktionalen Bibliotheken wie Ramda oder Lodash arbeiten.
+
+## Notengebung
+
+**Selbsteinschätzung:** 5.5 / 6.0
+
+**Begründung:**
+- Das Projekt wurde erfolgreich und termingerecht abgeschlossen.  
+- Die Anforderungen der funktionalen Programmierung wurden vollständig erfüllt.  
+- Es gibt jedoch noch Potenzial zur Optimierung der Performance bei sehr großen Datenmengen.
+
 
