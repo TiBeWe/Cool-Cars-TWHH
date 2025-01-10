@@ -134,6 +134,8 @@ cars.filter(car =>
 - **Paginierung:** Eine Paginierungsfunktion implementieren, die es ermöglicht, große Datenmengen in überschaubaren Seiten zu navigieren. Die Daten sollen in kleinen, unveränderlichen Chunks geladen und angezeigt werden.
 
 - **Filterfunktion:** Eine Filterfunktion hinzufügen, die es den Benutzern ermöglicht, Einträge nach bestimmten Kriterien zu filtern. Dabei soll sichergestellt werden, dass die Originaldaten unverändert bleiben.
+- Die Doku hat einige Schwierigkeiten mit sich gebracht, weil wir sehr unsicher waren wie wir sie aufbauen wollen, ausserdem hat es sehr viel Zeit in anspruch genommen, welche noch zusätzlich erbracht werden musste.
+- Github hat einige Probleme mit sich gebracht mit dem Mergen. Jemand musste das Projekt dann jeweils neu klonen, war unsere Lösung
 
 ### Lösungsansätze
 
