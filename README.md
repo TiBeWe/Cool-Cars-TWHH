@@ -7,12 +7,13 @@
 
 Das Projekt "Cool Cars" wurde im Rahmen des Moduls 323 mit dem Ziel umgesetzt, eine benutzerfreundliche Anwendung zur Verwaltung von Fahrzeugdaten zu entwickeln. Besonderer Fokus lag auf der Anwendung funktionaler Programmierkonzepte in JavaScript/React.
 
-Die App umfasst Funktionen zur Sortierung, Suche und Paginierung, welche durch die Prinzipien der funktionalen Programmierung effizient und modular umgesetzt wurden.
+Die App umfasst Funktionen zur Sortierung, Suche und eine Pagigngfunktion, welche durch die Prinzipien der funktionalen Programmierung effizient umgesetzt wurden.
 
 ## Technologien und Konzepte
 
 - **Frontend:** React.js  
-- **Backend:** Node.js mit REST-API  
+- **Backend:** Node.js mit REST-API
+- **Design:** Tailwind CSS  
 - **Funktionale Programmierung:** Pure Functions, Higher-Order Functions, Immutable Data Structures  
 
 ## Persönliche Kompetenzstufe
@@ -97,15 +98,15 @@ Hier wird `map` genutzt, um eine Liste der Marken zu erzeugen, und `Set`, um dop
 
 Die funktionale Programmierung erlaubt es, modularen und gut testbaren Code zu schreiben.
 
-In zukünftigen Projekten möchte ich die Konzepte weiter vertiefen und etwa mit TypeScript und funktionalen Bibliotheken wie Ramda oder Lodash arbeiten.
+In zukünftigen Projekten möchten wir die Konzepte weiter vertiefen. Und wir haben gemerkt, dass gewisse Dinge viel einfach zu lösen sind mit functionalem Programmieren und mir persönlich (Timo) macht es auch mehr Spass als die imperative Programmierung.
 
 ## Notengebung
 
-**Selbsteinschätzung:** 5.5 / 6.0
+**Selbsteinschätzung:** 6.0 / 6.0
 
 **Begründung:**
 - Das Projekt wurde erfolgreich und termingerecht abgeschlossen.  
 - Die Anforderungen der funktionalen Programmierung wurden vollständig erfüllt.  
-- Es gibt jedoch noch Potenzial zur Optimierung der Performance bei sehr großen Datenmengen.
+- Sogar noch die zusätzliche Funktion hinzugefügt um neue Autos zu erstellen.
 
 
